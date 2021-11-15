@@ -5,17 +5,17 @@ import by.varyvoda.matvey.servlethotel.entity.AbstractEntity;
 import java.util.List;
 import java.util.Map;
 
-public interface IDao<E extends AbstractEntity<ID>, ID> {
+public interface IDao<Entity extends AbstractEntity<ID>, ID> {
 
-    void save(E entity);
+    void save(Entity entity);
 
-    E getById(ID id);
+    Entity getById(ID id);
 
-    List<E> getByFields(Map<IEntityField<E>, String> values);
+    List<Entity> getByFields(Map<IEntityField<Entity>, String> values);
 
-    List<E> getAll();
+    List<Entity> getAll();
 
-    void update(E entity);
+    void update(Entity entity);
 
-    void delete(E entity);
+    void delete(Entity entity);
 }
