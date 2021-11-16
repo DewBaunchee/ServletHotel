@@ -11,11 +11,11 @@ public interface IDao<Entity extends AbstractEntity<ID>, ID> {
 
     Entity getById(ID id);
 
-    List<Entity> getByFields(Map<IEntityField<Entity>, String> values);
+    List<Entity> getByFields(Map<IEntityField<Entity>, Object> values);
 
     List<Entity> getAll();
 
     void update(Entity entity);
 
-    void delete(Entity entity);
+    void delete(ID id);
 }
