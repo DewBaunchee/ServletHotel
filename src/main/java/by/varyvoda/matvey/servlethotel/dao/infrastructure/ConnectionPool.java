@@ -1,6 +1,6 @@
 package by.varyvoda.matvey.servlethotel.dao.infrastructure;
 
-import by.varyvoda.matvey.servlethotel.dao.config.JdbcConfiguration;
+import by.varyvoda.matvey.servlethotel.config.Configuration;
 
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
@@ -13,10 +13,10 @@ public final class ConnectionPool {
 
     public static final ConnectionPool INSTANCE =
             new ConnectionPool(
-                    JdbcConfiguration.URL,
-                    JdbcConfiguration.USERNAME,
-                    JdbcConfiguration.PASSWORD,
-                    JdbcConfiguration.POOL_SIZE
+                    Configuration.URL,
+                    Configuration.USERNAME,
+                    Configuration.PASSWORD,
+                    Configuration.POOL_SIZE
             );
 
     private final String url;

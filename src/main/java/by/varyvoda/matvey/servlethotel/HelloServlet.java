@@ -1,10 +1,5 @@
 package by.varyvoda.matvey.servlethotel;
 
-import by.varyvoda.matvey.servlethotel.dao.user.UserDao;
-import by.varyvoda.matvey.servlethotel.entity.user.Role;
-import by.varyvoda.matvey.servlethotel.entity.user.User;
-import by.varyvoda.matvey.servlethotel.entity.user.UserRole;
-
 import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;

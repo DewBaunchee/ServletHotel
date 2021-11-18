@@ -1,5 +1,6 @@
 package by.varyvoda.matvey.servlethotel.service.authentication;
 
+import lombok.Builder;
 import lombok.Setter;
 
 import java.nio.charset.StandardCharsets;
@@ -7,18 +8,22 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
-@Setter
+@Builder
 public class Authentication {
 
     private static final String TOKEN_SECTION_SEPARATOR = "?";
 
-    private UUID token;
-    private Date expirationDate;
+    private final UUID token;
+    private final Date expirationDate;
 
     public Authentication(String template) {
         String decoded = new String(Base64.getDecoder().decode(template), StandardCharsets.UTF_8);
         token = UUID.fromString(decoded.substring(0, decoded.indexOf(TOKEN_SECTION_SEPARATOR)));
         expirationDate = new Date(Long.parseLong(decoded.substring(decoded.indexOf(TOKEN_SECTION_SEPARATOR) + 1)));
+    }
+
+    public boolean isExpired() {
+        return expirationDate.before(new Date());
     }
 
     public String toString() {

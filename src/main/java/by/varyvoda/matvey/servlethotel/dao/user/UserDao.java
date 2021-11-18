@@ -3,6 +3,7 @@ package by.varyvoda.matvey.servlethotel.dao.user;
 import by.varyvoda.matvey.servlethotel.dao.AbstractDao;
 import by.varyvoda.matvey.servlethotel.dao.iface.IUserDao;
 import by.varyvoda.matvey.servlethotel.entity.user.User;
+import by.varyvoda.matvey.servlethotel.util.ServiceLocator;
 
 import java.sql.*;
 import java.util.Map;
