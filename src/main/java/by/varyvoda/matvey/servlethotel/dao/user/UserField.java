@@ -1,8 +1,9 @@
 package by.varyvoda.matvey.servlethotel.dao.user;
 
 import by.varyvoda.matvey.servlethotel.dao.IEntityField;
-import by.varyvoda.matvey.servlethotel.entity.user.Role;
-import by.varyvoda.matvey.servlethotel.entity.user.User;
+import by.varyvoda.matvey.servlethotel.dao.role.RoleField;
+import by.varyvoda.matvey.servlethotel.entity.security.Role;
+import by.varyvoda.matvey.servlethotel.entity.security.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

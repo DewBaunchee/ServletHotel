@@ -2,6 +2,7 @@ package by.varyvoda.matvey.servlethotel.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public interface IEntityField<E> {
 
@@ -11,6 +12,7 @@ public interface IEntityField<E> {
 
     interface Preparer {
 
+        Preparer ENUM_PREPARER = (statement, value, index) -> statement.setObject(index, ((Enum<?>)value).name(), Types.OTHER);
         Preparer STRING_PREPARER = (statement, value, index) -> statement.setString(index, (String) value);
         Preparer INTEGER_PREPARER = (statement, value, index) -> statement.setInt(index, (Integer) value);
         Preparer BOOLEAN_PREPARER = (statement, value, index) -> statement.setBoolean(index, (Boolean) value);

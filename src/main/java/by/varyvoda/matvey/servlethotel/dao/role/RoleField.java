@@ -1,8 +1,8 @@
-package by.varyvoda.matvey.servlethotel.dao.user;
+package by.varyvoda.matvey.servlethotel.dao.role;
 
 import by.varyvoda.matvey.servlethotel.dao.IEntityField;
-import by.varyvoda.matvey.servlethotel.entity.user.Role;
-import by.varyvoda.matvey.servlethotel.entity.user.UserRole;
+import by.varyvoda.matvey.servlethotel.entity.security.Role;
+import by.varyvoda.matvey.servlethotel.entity.security.UserRole;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,10 +13,16 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 @Getter
 public enum RoleField implements IEntityField<Role> {
-    ROLE("role", Preparer.STRING_PREPARER);
+    ROLE("role", Preparer.ENUM_PREPARER);
 
     private final String field;
     private final Preparer preparer;
+
+    public static Role from(ResultSet resultSet) throws SQLException {
+        Role role = new Role();
+        role.setId(resultSet.getInt("id"));
+        return injectValues(role, resultSet);
+    }
 
     public static Role injectValues(Role role, ResultSet resultSet) throws SQLException {
         role.setRole(UserRole.valueOf(resultSet.getString(ROLE.getField())));

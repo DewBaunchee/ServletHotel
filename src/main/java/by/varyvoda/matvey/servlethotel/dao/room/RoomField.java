@@ -1,7 +1,11 @@
 package by.varyvoda.matvey.servlethotel.dao.room;
 
 import by.varyvoda.matvey.servlethotel.dao.IEntityField;
+import by.varyvoda.matvey.servlethotel.dao.reservation.ReservationField;
+import by.varyvoda.matvey.servlethotel.dao.user.UserField;
+import by.varyvoda.matvey.servlethotel.entity.hotel.Reservation;
 import by.varyvoda.matvey.servlethotel.entity.hotel.Room;
+import by.varyvoda.matvey.servlethotel.entity.security.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +18,8 @@ import java.sql.SQLException;
 public enum RoomField implements IEntityField<Room> {
     LABEL("label", Preparer.INTEGER_PREPARER),
     HAS_KITCHEN("has_kitchen", Preparer.BOOLEAN_PREPARER),
-    HAS_BATH("has_bath", Preparer.BOOLEAN_PREPARER);
+    HAS_BATH("has_bath", Preparer.BOOLEAN_PREPARER),
+    RESERVATION("reservation_id", Preparer.INTEGER_PREPARER);
 
     private final String field;
     private final Preparer preparer;
@@ -29,6 +34,17 @@ public enum RoomField implements IEntityField<Room> {
         room.setLabel(resultSet.getInt(LABEL.getField()));
         room.setHasKitchen(resultSet.getBoolean(HAS_KITCHEN.getField()));
         room.setHasBath(resultSet.getBoolean(HAS_BATH.getField()));
+
+        Reservation reservation = new Reservation();
+        reservation.setId(resultSet.getInt(RESERVATION.getField()));
+        if(!resultSet.wasNull()) {
+            reservation.setRoom(room);
+
+            User user = new User();
+            user.setId(resultSet.getInt(ReservationField.USER.getField()));
+            reservation.setUser(UserField.injectValues(user, resultSet));
+            room.setReservation(reservation);
+        }
         return room;
     }
 

@@ -1,16 +1,13 @@
 import by.varyvoda.matvey.servlethotel.dao.iface.IUserDao;
-import by.varyvoda.matvey.servlethotel.dao.user.UserDao;
-import by.varyvoda.matvey.servlethotel.entity.user.Role;
-import by.varyvoda.matvey.servlethotel.entity.user.User;
-import by.varyvoda.matvey.servlethotel.entity.user.UserRole;
+import by.varyvoda.matvey.servlethotel.entity.security.Role;
+import by.varyvoda.matvey.servlethotel.entity.security.User;
+import by.varyvoda.matvey.servlethotel.entity.security.UserRole;
 import by.varyvoda.matvey.servlethotel.service.authentication.exception.AuthenticationException;
 import by.varyvoda.matvey.servlethotel.service.iface.IAuthenticationService;
 import by.varyvoda.matvey.servlethotel.util.ServiceLocator;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.security.NoSuchAlgorithmException;
 
 public class UserTests {
 
@@ -44,18 +41,17 @@ public class UserTests {
     }
 
     @Test
-    public void login() throws AuthenticationException, NoSuchAlgorithmException {
-        authenticationService.login(";asa", "s;gdsgds");
+    public void register() {
+        User user = new User();
+        user.setUsername("dew");
+        user.setPassword("123");
+        user.setRole(adminRole);
+        authenticationService.register(user);
     }
 
     @Test
-    public void register() throws NoSuchAlgorithmException {
-        authenticationService.register(
-                User.builder()
-                        .username("dew")
-                        .password("123")
-                        .role(adminRole)
-                        .build()
-        );
+    public void login() throws AuthenticationException {
+        System.out.println(authenticationService.login("dew", "123"));
+        Assert.assertThrows(AuthenticationException.class, () -> authenticationService.login("dew", "321"));
     }
 }

@@ -5,11 +5,17 @@ import by.varyvoda.matvey.servlethotel.dao.iface.IReservationDao;
 import by.varyvoda.matvey.servlethotel.entity.hotel.Reservation;
 
 import java.sql.*;
+import java.util.Map;
 
 public class ReservationDao extends AbstractDao<Reservation> implements IReservationDao {
 
     private static final String DELETE_QUERY = "DELETE FROM reservation";
-    private static final String SELECT_QUERY = "SELECT * FROM reservation JOIN room ON room.id = room_id JOIN \"user\" ON \"user\".id = user_id";
+    private static final String SELECT_QUERY = "SELECT * FROM reservation JOIN room ON room.id = room_id JOIN \"user\" ON \"user\".id = user_id JOIN role ON role.id = \"user\".role_id";
+
+    @Override
+    protected String tableName() {
+        return "reservation";
+    }
 
     @Override
     protected PreparedStatement prepareSaveStatement(Connection connection, Reservation reservation) throws SQLException {
@@ -48,5 +54,12 @@ public class ReservationDao extends AbstractDao<Reservation> implements IReserva
     @Override
     protected Reservation processResultRow(ResultSet resultSet) throws SQLException {
         return ReservationField.from(resultSet);
+    }
+
+    @Override
+    public Reservation getByRoomId(Integer roomId) {
+        return getByFields(Map.of(ReservationField.ROOM, roomId)).stream()
+                .findFirst()
+                .orElse(null);
     }
 }

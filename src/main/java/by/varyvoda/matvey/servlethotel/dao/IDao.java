@@ -17,5 +17,5 @@ public interface IDao<Entity extends AbstractEntity<ID>, ID> {
 
     void update(Entity entity);
 
-    void delete(ID id);
+    void delete(Entity entity);
 }

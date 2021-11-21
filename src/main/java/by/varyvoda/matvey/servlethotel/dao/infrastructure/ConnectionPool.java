@@ -39,7 +39,6 @@ public final class ConnectionPool {
     }
 
     void freeConnection(Connection connection) {
-        // TODO connection.commit();
         connections.add(connection);
     }
 
@@ -56,6 +55,11 @@ public final class ConnectionPool {
         Connection connection = DriverManager.getConnection(url, username, password);
         ClassLoader connectionClassLoader = connection.getClass().getClassLoader();
         Class<?>[] interfaces = connection.getClass().getInterfaces();
-        return  (Connection) Proxy.newProxyInstance(connectionClassLoader, interfaces, new ProxyConnection(connection, this));
+
+        ProxyConnection proxyConnection = new ProxyConnection(this);
+        Connection proxied = (Connection) Proxy.newProxyInstance(connectionClassLoader, interfaces, proxyConnection);
+        proxyConnection.setProxied(proxied);
+        proxyConnection.setConnection(connection);
+        return proxied;
     }
 }

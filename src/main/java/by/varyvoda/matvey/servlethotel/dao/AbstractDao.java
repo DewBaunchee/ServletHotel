@@ -24,12 +24,13 @@ public abstract class AbstractDao<Entity extends AbstractEntity<Integer>> implem
             }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     public Entity getById(Integer id) {
         try (Connection connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(prepareSelectTemplate() + " WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement(prepareSelectTemplate() + " WHERE " + tableName() + ".id = ?");
             statement.setInt(1, id);
             statement.execute();
             ResultSet resultSet = statement.getResultSet();
@@ -38,6 +39,7 @@ public abstract class AbstractDao<Entity extends AbstractEntity<Integer>> implem
             }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return null;
     }
@@ -68,8 +70,8 @@ public abstract class AbstractDao<Entity extends AbstractEntity<Integer>> implem
             return result;
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public List<Entity> getAll() {
@@ -85,8 +87,8 @@ public abstract class AbstractDao<Entity extends AbstractEntity<Integer>> implem
             return result;
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public void update(Entity entity) {
@@ -95,18 +97,22 @@ public abstract class AbstractDao<Entity extends AbstractEntity<Integer>> implem
             statement.executeUpdate();
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public void delete(Integer id) {
+    public void delete(Entity entity) {
         try (Connection connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(prepareDeleteTemplate() + " WHERE id = ? ");
-            statement.setInt(1, id);
+            PreparedStatement statement = connection.prepareStatement(prepareDeleteTemplate() + " WHERE " + tableName() + ".id = ? ");
+            statement.setInt(1, entity.getId());
             statement.executeUpdate();
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
+
+    protected abstract String tableName();
 
     protected abstract PreparedStatement prepareSaveStatement(Connection connection, Entity entity) throws SQLException;
 

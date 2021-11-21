@@ -5,7 +5,7 @@ import by.varyvoda.matvey.servlethotel.dao.room.RoomField;
 import by.varyvoda.matvey.servlethotel.dao.user.UserField;
 import by.varyvoda.matvey.servlethotel.entity.hotel.Reservation;
 import by.varyvoda.matvey.servlethotel.entity.hotel.Room;
-import by.varyvoda.matvey.servlethotel.entity.user.User;
+import by.varyvoda.matvey.servlethotel.entity.security.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,13 @@ public enum ReservationField implements IEntityField<Reservation> {
     }
 
     public static Reservation injectValues(Reservation reservation, ResultSet resultSet) throws SQLException {
-        reservation.setRoom(RoomField.injectValues(new Room(resultSet.getInt(ROOM.getField())), resultSet));
+        Room room = new Room(resultSet.getInt(ROOM.getField()));
+        room.setLabel(resultSet.getInt(RoomField.LABEL.getField()));
+        room.setHasKitchen(resultSet.getBoolean(RoomField.HAS_KITCHEN.getField()));
+        room.setHasBath(resultSet.getBoolean(RoomField.HAS_BATH.getField()));
+        room.setReservation(reservation);
+
+        reservation.setRoom(room);
         reservation.setUser(UserField.injectValues(new User(resultSet.getInt(USER.getField())), resultSet));
         return reservation;
     }

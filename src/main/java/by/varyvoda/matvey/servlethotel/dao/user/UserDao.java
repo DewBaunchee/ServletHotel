@@ -2,8 +2,7 @@ package by.varyvoda.matvey.servlethotel.dao.user;
 
 import by.varyvoda.matvey.servlethotel.dao.AbstractDao;
 import by.varyvoda.matvey.servlethotel.dao.iface.IUserDao;
-import by.varyvoda.matvey.servlethotel.entity.user.User;
-import by.varyvoda.matvey.servlethotel.util.ServiceLocator;
+import by.varyvoda.matvey.servlethotel.entity.security.User;
 
 import java.sql.*;
 import java.util.Map;
@@ -12,6 +11,11 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
 
     private static final String DELETE_QUERY = "DELETE FROM \"user\"";
     private static final String SELECT_QUERY = "SELECT * FROM \"user\" JOIN role on role.id = \"user\".role_id";
+
+    @Override
+    protected String tableName() {
+        return "\"user\"";
+    }
 
     @Override
     protected PreparedStatement prepareSaveStatement(Connection connection, User user) throws SQLException {

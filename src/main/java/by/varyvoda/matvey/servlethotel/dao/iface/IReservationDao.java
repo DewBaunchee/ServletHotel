@@ -4,4 +4,6 @@ import by.varyvoda.matvey.servlethotel.dao.IDao;
 import by.varyvoda.matvey.servlethotel.entity.hotel.Reservation;
 
 public interface IReservationDao extends IDao<Reservation, Integer> {
+
+    Reservation getByRoomId(Integer roomId);
 }

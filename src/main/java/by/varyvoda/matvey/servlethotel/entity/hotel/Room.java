@@ -19,4 +19,6 @@ public class Room extends IntegerId {
     private Boolean hasKitchen;
 
     private Boolean hasBath;
+
+    private Reservation reservation;
 }
