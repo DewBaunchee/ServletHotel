@@ -13,8 +13,8 @@
 <body>
 <form>
     <select id="language" name="language" onchange="submit()">
-        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
         <option value="ru" ${language == 'ru' ? 'selected' : ''}>Russian</option>
+        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
     </select>
 </form>
 <form action="login" method="post">
